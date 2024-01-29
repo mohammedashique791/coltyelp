@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 const store = MongoStore.create({
-    mongoUrl: 'mongodb://127.0.0.1:27017/coltYelp',
+    mongoUrl: databaseUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
         secret: secret
