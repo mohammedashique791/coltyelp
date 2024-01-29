@@ -56,6 +56,7 @@ const sessionConfig = {
     store,
     name: 'session',
     resave: false,
+    secret: secret,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
