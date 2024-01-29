@@ -7,11 +7,11 @@ const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds })
+    return res.render('campgrounds/index', { campgrounds })
 }
 
 module.exports.renderNewForm = (req, res) => {
-    res.render('campgrounds/new');
+    return res.render('campgrounds/new');
 }
 
 module.exports.createCampground = async (req, res, next) => {
@@ -26,7 +26,7 @@ module.exports.createCampground = async (req, res, next) => {
     await campground.save();
     console.log(campground);
     req.flash('success', 'Successfully made a new campground!');
-    res.redirect(`/campgrounds/${campground._id}`)
+    return res.redirect(`/campgrounds/${campground._id}`)
 }
 
 module.exports.showCampground = async (req, res,) => {
@@ -40,7 +40,7 @@ module.exports.showCampground = async (req, res,) => {
         req.flash('error', 'Cannot find that campground!');
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/show', { campground });
+    return res.render('campgrounds/show', { campground });
 }
 
 module.exports.renderEditForm = async (req, res) => {
@@ -49,8 +49,8 @@ module.exports.renderEditForm = async (req, res) => {
     if (!campground) {
         req.flash('error', 'Cannot find that campground!');
         return res.redirect('/campgrounds');
-    }
-    res.render('campgrounds/edit', { campground });
+    };
+    return res.render('campgrounds/edit', { campground });
 }
 
 module.exports.updateCampground = async (req, res) => {
@@ -67,12 +67,12 @@ module.exports.updateCampground = async (req, res) => {
         await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
     }
     req.flash('success', 'Successfully updated campground!');
-    res.redirect(`/campgrounds/${campground._id}`)
+    return res.redirect(`/campgrounds/${campground._id}`)
 }
 
 module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted campground')
-    res.redirect('/campgrounds');
+    req.flash('success', 'Successfully deleted campground');
+    return res.redirect('/campgrounds');
 }
